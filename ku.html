@@ -1,40 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
 <body>
-    <h1>Register from</h1>
+    <h1>Register form</h1>
     ชื่อ<input type="text"> <br>
-    นามสกุล<input type="text">
-    อายุ<input type="text">
+    นามสกุล<input type="text"> 
+    อายุ<input type="number" min="0" max="150">
     <div>
         เพศ
         <div>
-            <input name="gender" type="radio">ชาย
+            <input name="Gender" type="radio">ชาย
         </div>
         <div>
-            <input name="gender" type="radio">หญิง
+            <input name="Gender" type="radio">หญิง
         </div>
         <div>
-            <input name="gender" type="radio">อื่นๆ
+            <input name="Gender" type="radio">อื่นๆ
+        </div>
     </div>
     <div>
         สิ่งที่สนใจ
-        <input name="interest" type="checkbox">เรียน
+        <div>
+            <input name="Interest" type="checkbox">เรียน
+        </div>
+        <div>
+            <input name="Interest" type="checkbox">เล่นเกม
+        </div>
+        <div>
+            <input name="Interest" type="checkbox">อ่านหนังสือ
+        </div>
     </div>
     <div>
-        <input name="interest" type="checkbox">เล่นเกม
+        คำอธิบายตัวเอง
+        <testarea></testarea>
     </div>
-    <div>
-        <input name="interest" type="checkbox">อ่านหนังสือ
-    </div>
-</div>
-    คำอธิบายตัวเอง
-    <testarea></testarea>
-</div>
-<button>ส่งข้อมูล</button>
+    <button>ส่งข้อมูล</button>
 </body>
 </html>
