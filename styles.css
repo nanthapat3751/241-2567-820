@@ -1,75 +1,110 @@
-        @font-face {
-            font-family: 'kanit';
-            src: url('./Kanit/Kanit-Regular.ttf');
-        }
+body::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url('.jpg') no-repeat center center/cover;
+    filter: brightness(0.9) blur(1px);
+    z-index: -1;
+}
 
-     body {
-        font-family: 'kanit';
-    }
-    .container {
-        width: 100%;
-        max-width: 640px;
-        margin-left: auto;
-        margin-right: auto;
-        background-color: azure;
-        padding: 20px;
-        box-sizing: border-box;
-    }
-    .header {
-        font-size: 30px;
-        text-align: center;
-        margin-bottom: 20px;
-    }
-    .header-form {
-        width: 140px;
-    }
-    .flex {
-        display: flex;
-    }
-    .form-input {
-        margin-bottom: 10px;
-    }
-    input.form, textarea {
-        border: 1px solid black;
-        width: 100%;
-    }
-    .center {
-        text-align: center;
-    }
-    .button {
-        border: 0;
-        width: 50%;
-        background-color: aqua;
-        height: 40px;
-    }
+body {
+    font-family: 'Kanit';
+    margin: 0;
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
 
-    .message {
-        margin-top: 20px;
-        padding: 10px;
-        background-color: lightgray;
-        display: none;
-    }
+html {
+    width: 100%;
+    height: 100%;
+}
 
-    .message.success {
-        background-color: lightgreen;
-        display: block;
-    }
 
-    .message.danger {
-        background-color: lightcoral;
-        display: block;
-    }
+.container {
+    background: linear-gradient(to bottom right, rgba(255, 192, 203, 0.7), rgba(255, 182, 193, 0.7)); /* ชมพูอ่อนโปร่ง */
+    color: #880e4f;
+    width: 100%;
+    max-width: 640px;
+    margin: auto;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+}
 
-    @media screen and (max-width: 768px){
-        .flex{
-            flex-direction: column;
-        }
-        .header{
-            font-size: 24px;
-        }
-        .button{
-            width: 100%;
-        }
-          
-    
-        
+.header {
+    font-size: 30px;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #ad1457;
+}
+
+input.form, textarea {
+    border: 1px solid #f48fb1;
+    background: rgba(255, 255, 255, 0.6);
+    color: #ad1457;
+    letter-spacing: 1px;
+    border-radius: 5px;
+    width: 100%;
+    height: 35px;
+    padding-left: 10px;
+}
+
+input.form:focus, textarea:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid #f06292;
+}
+
+textarea {
+    width: 100%;
+    height: 80px;
+    border: 1px solid #f48fb1;
+    background: rgba(255, 255, 255, 0.6);
+    color: #ad1457;
+    border-radius: 5px;
+    padding: 10px;
+    resize: vertical;
+    margin-bottom: 20px;
+}
+
+.form-input {
+    margin-bottom: 15px;
+}
+
+.button {
+    font-family: 'Kanit';
+    font-size: 16px;
+    background: linear-gradient(to right, #f48fb1, #f8bbd0); /* ชมพูเข้ม → อ่อน */
+    border-radius: 10px;
+    border: none;
+    color: white;
+    height: 50px;
+    width: 50%;
+    transition: all 0.3s ease;
+    box-shadow: 0px 0px 15px rgba(244, 143, 177, 0.4);
+    display: block;
+    margin: 20px auto 0 auto;
+}
+
+.button:hover {
+    background: #f06292;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+}
+
+/* กล่องข้อความ */
+.message.success {
+    background-color: #fce4ec;
+    color: #c2185b;
+}
+
+.message.danger {
+    background-color: #ffebee;
+    color: #d32f2f;
+}

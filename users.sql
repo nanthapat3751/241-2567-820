@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mysql_db_830:3306
--- Generation Time: Feb 03, 2025 at 10:09 AM
+-- Generation Time: Feb 03, 2025 at 10:08 AM
 -- Server version: 5.7.44
 -- PHP Version: 8.2.27
 
@@ -33,7 +33,7 @@ CREATE TABLE `users` (
   `lastname` varchar(255) CHARACTER SET utf8 NOT NULL,
   `age` int(11) NOT NULL,
   `gender` enum('ชาย','หญิง','ไม่ระบุ') CHARACTER SET utf8 NOT NULL,
-  `interts` text CHARACTER SET utf8 NOT NULL,
+  `interests` text CHARACTER SET utf8 NOT NULL,
   `description` text CHARACTER SET utf8 NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 COMMIT;
