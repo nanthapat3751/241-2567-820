@@ -1,117 +1,134 @@
+/* =============== โหลดฟอนต์ Kanit จากไฟล์ภายนอก =============== */
 @font-face {
-    font-family: 'Kanit';
-    src: url('./Kanit/Kanit-Regular.ttf');
-  }
+  font-family: 'Kanit';
+  src: url('./Kanit/Kanit-Regular.ttf');
+}
 
-  body { //เปลี่ยนสีพื้นหลังหน้าเว็บ
-    font-family: 'Arial' sans-serif;
-    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),url("pun.jpg");
-    background-size: cover; 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 0px;
-  }
-  .header_1 { //เเก้ไข user management page
-    font-family: 'Kanit';
-    font-size: 20px;
-    padding: 20px;
-    width: 20%;
-    background: linear-gradient(45deg, #ff6600, #cc0000);
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
-    border-radius: 10px;
-    text-align: center;
-    front-weight: bold;
-    color: #fff;
-    position: fixed;
-    top: 50%;
-    left: 10%;
-    transform: translateX(-50%);
-  }
-  .Back_to_register{ //เเก้ไขปุ่ม back to register
-    font-size: 25px;
-    font-weight: bold;
-    padding: 20px;
-    color: white;
-    background: linear-gradient(45deg, #444, black);
-    display: flex;
-    text-align: center;
-    justify-content: center;
-    width: 200px;
-    border-radius: 10px;
-    position: fixed;
-    top: 50%;
-    left: 83%;
-  }
-  .Back_to_register:hover {
-    font-family:  'Arial' sans-serif;
-    background: #ff9900;
-    color: white;  
-    transition: 0.2s; 
-    transform: scale(1.1);
-  }
-  table { //เเก้ไข ตาราง
-    width: 100%;
-    margin: 20px 0;
-    margin-left: 50px;
-    border-collapse: collapse; //เส้นขอบของเซลล์ที่ติดกันจะรวมกันเป็นเส้นเดียว
-    border: 5px;
-    background: #222;
-    color: white;
-    box-shadow: 3px 3px 30px rgba(0, 0, 0, 0.8);
-    border-radius: 10px; 
-    overflow: hidden;
-  }
-  th, td {
-    padding:10px;
-    text-align: center;
-    border: 3.5px solid #444;
-    box-shadow: 3px 3px 30px rgba(0, 0, 0, 0.3);
-  }
-  th {
-    font-family: 'Arial';
-    background: linear-gradient(45deg, #ff8800, #ff2200, #cc0000);
-    color: #fff;
-    text-transform: uppercase;
-  }
-  tr:nth-child(even) {
-    background-color: #333; //#87CEEB
-  }
-  tr:nth-child(odd) {
-    background-color: #444; //#AFEEEE
-  }
-  tr:hover {
-    background-color: #666; 
-    transition: 0.3s;
-  }
-  button {
-    padding: 10px;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    front-size: 15px;
-  }
-  .Edit { //เเก้ไขปุ่ม edit
-       border: none;
-       background: linear-gradient(135deg, #28a745, #218838); /* Green */
-       color: white;
-   }
-  .Edit:hover {
-        background: linear-gradient(135deg, #218838, #28a745); 
-        color: white;
-        transform: scale(1.2);
-        transition: 0.2s;
-    }
-   .delete {
-         border: none;
-         background: linear-gradient(135deg, #dc3545, #c82333); /* Red */
-         color: white;
-    }
-    .delete:hover {
-        background: linear-gradient(135deg, #c82333, #dc3545); 
-        color: white;
-        transform: scale(1.2);
-        transition: 0.2s;
-    }
-   
-   
+/* =============== ตั้งค่าพื้นฐานให้ body และภาพพื้นหลัง =============== */
+body {
+  font-family: 'Kanit', sans-serif;
+  background: url("night.jpg") no-repeat center center fixed; /* ภาพพื้นหลังกลางจอ ไม่เลื่อน */
+  background-size: cover; /* ปรับภาพให้ครอบคลุมทั้งหน้าจอ */
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.table-container {
+  position: absolute;
+  margin-top: 150px;  /* ขยับลงจากตำแหน่งที่ต้องการ */
+  left: 50%;   /* จัดให้อยู่กลาง */
+  transform: translateX(-50%);  /* จัดให้อยู่กึ่งกลางแนวนอน */
+}
+
+
+/* =============== กล่องหัวข้อด้านบน (User management page) =============== */
+.header_1 {
+  font-size: 40px;
+  padding: 20px 40px;
+  width: 800px;
+  position: fixed;
+  font-weight:bold;
+  color:white;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%); /* จัดให้อยู่กึ่งกลางแนวนอน */
+  background: linear-gradient(135deg, #ffa3e0, #c199ff); /* ไล่สีชมพู → ม่วง */
+  backdrop-filter: blur(6px); /* ทำให้พื้นหลังเบลอเล็กน้อย */
+  border-radius: 10px;
+  z-index: 10; /* ให้ลอยอยู่เหนือ element อื่น */
+}
+
+/* =============== ปุ่มกลับไปหน้า Register =============== */
+.Back_to_register {
+  font-size: 20px;
+  font-weight: bold;
+  padding: 15px;
+  color:white;
+  background: linear-gradient(135deg, #ffa3e0, #c199ff); /* ไล่สีชมพู → ม่วง */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 250px;
+  border-radius: 10px;
+  position: fixed;
+  bottom: 40px;
+  right: 40px; /* อยู่ล่างขวาของหน้าจอ */
+  transition: 0.3s ease; /* ทำให้การ hover ลื่นไหล */
+}
+
+/* =============== เอฟเฟกต์ตอน hover ปุ่ม back =============== */
+.Back_to_register:hover {
+  background: linear-gradient(135deg, #ff9dca, #a47aff); /* เปลี่ยนเฉดสี */
+  transform: scale(1.1); /* ขยายขึ้นเล็กน้อย */
+}
+
+/* =============== ช่องในตาราง (หัวตารางและข้อมูล) =============== */
+th, td {
+  padding: 12px;
+  text-align: center;
+  border: 1px solid #f3d9ff; /* ขอบสีชมพูอ่อน */
+}
+
+/* =============== หัวตาราง =============== */
+th {
+  background: linear-gradient(135deg, #ffd3e2, #c9e4ff); /* ไล่สีชมพู → ฟ้าอ่อน */
+  color: #222;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+/* =============== แถวคู่ในตาราง (สีพื้นหลัง) =============== */
+tr:nth-child(even) {
+  background-color: rgba(252, 234, 255, 0.6); /* ชมพูใส */
+}
+
+/* =============== แคระคี่ในตาราง (สีพื้นหลัง) =============== */
+tr:nth-child(odd) {
+  background-color: rgba(225, 245, 255, 0.6); /* ฟ้าใส */
+}
+
+/* =============== สีพื้นหลังเมื่อเอาเมาส์ไปชี้แถวตาราง =============== */
+tr:hover {
+  background-color: rgba(213, 244, 255, 0.9); /* ม่วงสดใส */
+  transition: 0.3s;
+}
+
+/* =============== ปุ่มทั่วไป (edit/delete) =============== */
+button {
+  padding: 10px 14px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 15px;
+  transition: 0.2s ease;
+  margin: 0 5px; /* เว้นระยะห่างปุ่ม */
+}
+
+/* =============== ปุ่ม Edit สีเขียวพาสเทล =============== */
+.Edit {
+  background: linear-gradient(135deg, #b3ffb3, #98e8d8); /* เขียว → ฟ้า */
+  color: #004d40;
+}
+
+.Edit:hover {
+  background: linear-gradient(135deg,rgb(140, 245, 168),rgb(140, 217, 242)); /* เขียวอ่อนเมื่อ hover */
+  transform: scale(1.1);
+}
+
+/* =============== ปุ่ม Delete สีชมพูแดงอ่อน =============== */
+.delete {
+  background: linear-gradient(135deg, #ffc9d3, #ffb3b3); /* ชมพูอ่อน */
+  margin: 10px;
+  color: #8b0000;
+}
+
+.delete:hover {
+  background: linear-gradient(135deg, #ffb3c6, #ffa5a5); /* ชมพูสดเมื่อ hover */
+  transform: scale(1.1);
+}
+
+

@@ -1,14 +1,21 @@
-body::before {
+@font-face {
+    font-family: 'Kanit';
+    src: url('./Kanit/Kanit-Regular.ttf');
+  }
+  
+  /* ==== ภาพพื้นหลังเต็มจอ ภาพเดียว คมชัด ==== */
+  body::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: url('.jpg') no-repeat center center/cover;
-    filter: brightness(0.9) blur(1px);
+    background: url(morning.jpg) no-repeat center center;
+    background-size: cover;
     z-index: -1;
-}
-
-body {
-    font-family: 'Kanit';
+  }
+  
+  /* ==== ตัวเว็บ ==== */
+  body {
+    font-family: 'Arial', sans-serif;
     margin: 0;
     width: 100vw;
     height: 100vh;
@@ -17,94 +24,98 @@ body {
     justify-content: center;
     align-items: center;
     overflow: hidden;
-}
-
-html {
-    width: 100%;
-    height: 100%;
-}
-
-
-.container {
-    background: linear-gradient(to bottom right, rgba(255, 192, 203, 0.7), rgba(255, 182, 193, 0.7)); /* ชมพูอ่อนโปร่ง */
-    color: #880e4f;
+  }
+  
+  /* ==== กล่องฟอร์ม ==== */
+  .container {
+    font-size: 22px;
+    background: linear-gradient(to bottom right, rgba(171, 251, 255, 0.7), rgba(234, 197, 255, 0.7), rgba(255, 210, 255, 0.7));
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(10px);
+  
+    color: rgb(0, 0, 0);
     width: 100%;
     max-width: 640px;
     margin: auto;
     padding: 40px;
-    border-radius: 16px;
+    border-radius: 15px;
     box-shadow: 0 4px 25px rgba(0, 0, 0, 0.2);
     box-sizing: border-box;
-}
-
-.header {
-    font-size: 30px;
+  }
+  
+  /* ==== หัวฟอร์ม ==== */
+  .header {
+    font-size: 40px;
     text-align: center;
     margin-bottom: 20px;
-    color: #ad1457;
-}
-
-input.form, textarea {
-    border: 1px solid #f48fb1;
+    color: rgb(0, 0, 0);
+  }
+  
+  /* ==== กล่องข้อความ ==== */
+  textarea {
+    width: 100%;
+    height: 80px;
+    border: 1px solid #FFCCFF;
     background: rgba(255, 255, 255, 0.6);
-    color: #ad1457;
+    border-radius: 5px;
+    padding: 10px;
+    resize: vertical;
+    margin-bottom: 20px;
+  }
+  
+  /* ==== ช่องกรอกข้อมูล ==== */
+  input.form, textarea {
+    border: 1px solid #FFCCFF;
+    background: rgba(255, 255, 255, 0.6);
+    color: #00695c;
     letter-spacing: 1px;
     border-radius: 5px;
     width: 100%;
     height: 35px;
     padding-left: 10px;
-}
-
-input.form:focus, textarea:focus {
+  }
+  
+  input.form:focus, textarea:focus {
     outline: none;
     background: rgba(255, 255, 255, 0.9);
-    border: 1px solid #f06292;
-}
-
-textarea {
-    width: 100%;
-    height: 80px;
-    border: 1px solid #f48fb1;
-    background: rgba(255, 255, 255, 0.6);
-    color: #ad1457;
-    border-radius: 5px;
-    padding: 10px;
-    resize: vertical;
-    margin-bottom: 20px;
-}
-
-.form-input {
+    border: 1px solid #FFCCFF;
+  }
+  
+  /* ==== ระยะห่างระหว่าง input ==== */
+  .form-input {
     margin-bottom: 15px;
-}
-
-.button {
+  }
+  
+  /* ==== ปุ่มส่ง ==== */
+  .button {
     font-family: 'Kanit';
     font-size: 16px;
-    background: linear-gradient(to right, #f48fb1, #f8bbd0); /* ชมพูเข้ม → อ่อน */
+    background: linear-gradient(to right, rgb(141, 249, 255), rgb(171, 27, 255), rgb(253, 144, 255));
     border-radius: 10px;
     border: none;
     color: white;
     height: 50px;
     width: 50%;
     transition: all 0.3s ease;
-    box-shadow: 0px 0px 15px rgba(244, 143, 177, 0.4);
+    box-shadow: 0px 0px 15px rgba(0, 188, 212, 0.4);
     display: block;
     margin: 20px auto 0 auto;
-}
-
-.button:hover {
-    background: #f06292;
+  }
+  
+  .button:hover {
+    background: linear-gradient(to right, rgb(61, 245, 255), rgb(114, 0, 180), rgb(252, 95, 255));
     transform: translateY(-3px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
-}
-
-/* กล่องข้อความ */
-.message.success {
-    background-color: #fce4ec;
-    color: #c2185b;
-}
-
-.message.danger {
+  }
+  
+  /* ==== กล่องข้อความแจ้งเตือน ==== */
+  .message.success {
+    background-color: rgb(202, 255, 251);
+    color: rgb(92, 200, 68);
+  }
+  
+  .message.danger {
     background-color: #ffebee;
     color: #d32f2f;
-}
+  }
+  

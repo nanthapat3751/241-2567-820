@@ -180,7 +180,6 @@ ages.sort(); //เรียงข้อมูลจากน้อยไปม�
 console.log('age is',ages);
 */
 
-
 /*
 let name_list = ['John','Jane','Joe'];
 name_list.push('Jame');
