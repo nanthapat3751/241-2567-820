@@ -1,146 +1,119 @@
-const BASE_URL = 'http://localhost:8000'
-let mode = 'CREATE' //default mode
-let selectId = ''
+const express = require('express');
+const mysql = require('mysql2/promise');
+const cors = require('cors');
+const app = express();
+const port = 8050;
 
-window.onload = async() => {
-    const urlParams = new URLSearchParams(window.location.search)
-    const id = urlParams.get('id')
-    console.log('id',id)
-    if (id) {
-        mode = 'EDIT'
-        selectId = id
+// ใช้ express.json() แทน body-parser
+app.use(express.json());
+app.use(cors()); // เปิดใช้งาน CORS เพื่อให้สามารถทำงานกับ Postman หรือจากต่างโดเมน
 
-        //1. ดึงข้อมูล user ที่ต้องการ edit มาแสดง
-        try {
-            const response = await axios.get(`${BASE_URL}/users/${id}`)
-            const user = response.data
-        
-        //2. เราจะนำข้อมูลของ user ที่ดึงมา ใส่ใน input ที่เรามี
-        let firstNameDom = document.querySelector('input[name=firstname]')
-        let lastNameDom = document.querySelector('input[name=lastname]')
-        let ageDom = document.querySelector('input[name=age]')
-        let descriptionDom = document.querySelector('textarea[name=description]')
-        
-        firstNameDom.value = user.firstname
-        lastNameDom.value = user.lastname
-        ageDom.value = user.age
-        descriptionDom.value = user.description
-        
-        let genderDom = document.querySelectorAll('input[name=gender]')
-        let interestDoms = document.querySelectorAll('input[name=interest]')
+// สร้างการเชื่อมต่อ MySQL แบบ Single Connection
+let conn = null;
+const initMySQL = async () => {
+    conn = await mysql.createConnection({
+        host: 'localhost',
+        user: 'root',
+        password: 'root456',
+        database: 'repair_computer',
+        port: 3306
+    });
+};
 
-        for (let i = 0; i < genderDom.length; i++) {
-            if (genderDom[i].value == user.gender) {
-                genderDom[i].checked = true
-            }
-        }
-        
-        for (let i = 0; i < interestDoms.length; i++) {
-            if (user.interests.includes(interestDoms[i].value)) {
-                interestDoms[i].checked = true
-            }
-        }
-        }catch (error) {
-            console.log('error',error)
-        }
-    }
-}
-
-const validateData = (userData) => {
-   let errors = []
-   if (!userData.firstname) {
-       errors.push('กรุณากรอกชื่อ')
-   }
-   if (!userData.lastname) {
-       errors.push('กรุณากรอกนามสกุล')
-   }
-   if (!userData.age) {
-       errors.push('กรุณากรอกอายุ')
-   }
-   if (!userData.gender) {
-       errors.push('กรุณาเลือกเพศ')
-   }
-   if (!userData.interests) {
-       errors.push('กรุณาเลือกความสนใจ')
-   }
-   if (!userData.description) {
-       errors.push('กรุณากรอกข้อมูล')
-   }
-   return errors
-}
-const submitData = async () => {
-    let firstNameDom = document.querySelector('input[name=firstname]');
-    let lastNameDom = document.querySelector('input[name=lastname]');
-    let ageDom = document.querySelector('input[name=age]');
-    let genderDom = document.querySelector('input[name=gender]:checked') || {}
-    let interestDoms = document.querySelectorAll('input[name=interest]:checked') || {}
-    let descriptionDom = document.querySelector('textarea[name=description]');
-    
-    let messageDOM = document.getElementById('message');
-    
+// Route สำหรับ Root URL - ดึงข้อมูลทั้งหมดจากตาราง RepairComputer
+app.get('/RepairComputer', async (req, res) => {
     try {
-    let interest = ''
-    for (let i = 0; i < interestDoms.length; i++) {
-        interest += interestDoms[i].value;
-        if (i != interestDoms.length - 1) {
-            interest += ', '
-        }
-    }
-
-    let userData = {
-        firstname: firstNameDom.value,
-        lastname: lastNameDom.value,
-        age: ageDom.value,
-        gender: genderDom.value,
-        description: descriptionDom.value,
-        interests: interest
-    }
-    console.log('submitData',userData);
-    /*
-        const errors = validateData(userData)
-
-        if(errors.length > 0) {
-            //มี error
-            throw {
-                message: 'กรุณากรอกข้อมูลให้ครบถ้วน',
-                errors : errors
-            }
-        }
-    */
-        let message = 'บันทึกข้อมูลเรียบร้อย'
-        if (mode == 'CREATE') {
-          const response = await axios.post(`${BASE_URL}/users`, userData)
-          console.log('response',response.data)
-        } else {
-          const response = await axios.put(`${BASE_URL}/users/${selectId}`, userData)
-          message = 'แก้ไขข้อมูลเรียบร้อย'
-          console.log('response',response.data)
-        }
-        setTimeout(() => {
-            window.location.href = 'user.html'
-        }, 250);
-        messageDOM.innerText = message
-        messageDOM.className = 'message success'
+        const [results] = await conn.query('SELECT * FROM RepairComputer');
+        res.status(200).json(results); // ส่งข้อมูลทั้งหมดในรูปแบบ JSON
     } catch (error) {
-        console.log('error message',error.message)
-        console.log('error',error.errors)
-        
-       if (error.response) {
-            console.log('error',error.response.data.message)
-            error.message = error.response.data.message
-            error.errors = error.response.data.errors
-       }
-        
-       let htmlData = '<div>'
-       htmlData += `<div> ${error.message} <div>`
-       htmlData += '<ul>'
-       for (let i = 0; i < error.errors.length; i++) {
-           htmlData += `<li> ${error.errors[i]} </li>`
-       }
-       htmlData += '</ul>'
-       htmlData += '</div>'
-
-       messageDOM.innerHTML = htmlData
-       messageDOM.className = 'message danger'
+        console.error("Error fetching all repair records:", error);
+        res.status(500).json({ message: 'Error fetching all repair records', error: error.message });
     }
-}
+});
+
+// API สำหรับดึงข้อมูลการซ่อมคอมพิวเตอร์ตาม ID
+app.get('/RepairComputer/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const [rows] = await conn.query('SELECT * FROM RepairComputer WHERE id = ?', [id]);
+        if (rows.length === 0) {
+            return res.status(404).json({ message: 'Repair record not found' });
+        }
+        res.status(200).json(rows[0]);  // ส่งข้อมูลที่พบในรูปแบบ JSON
+    } catch (error) {
+        console.error("Error fetching data by ID:", error);
+        res.status(500).json({ message: 'Error fetching data by ID', error: error.message });
+    }
+});
+
+// API สำหรับเพิ่มข้อมูลการซ่อมคอมพิวเตอร์
+app.post('/RepairComputer', async (req, res) => {
+    const userData = req.body;
+    try {
+        // ตรวจสอบข้อมูลก่อนบันทึก
+        if (!userData.customer || !userData.phone || !userData.email || !userData.deviceType || !userData.date) {
+            return res.status(400).json({ message: 'Missing required fields' });
+        }
+
+        const [result] = await conn.query('INSERT INTO RepairComputer SET ?', userData);
+        res.status(201).json({ message: 'Record created successfully', id: result.insertId });
+    } catch (error) {
+        console.error("Error creating record:", error);
+        res.status(500).json({ message: 'Error creating record', error: error.message });
+    }
+});
+
+// API สำหรับการอัปเดตข้อมูลการซ่อมคอมพิวเตอร์
+app.put('/RepairComputer/:id', async (req, res) => {
+    const { id } = req.params;
+    const userData = req.body;
+
+    try {
+        // ตรวจสอบข้อมูลก่อนอัปเดต
+        if (!userData.customer || !userData.phone || !userData.email || !userData.deviceType || !userData.date) {
+            return res.status(400).json({ message: 'Missing required fields' });
+        }
+
+        const [result] = await conn.query('UPDATE RepairComputer SET ? WHERE id = ?', [userData, id]);
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: 'Repair record not found for update' });
+        }
+
+        res.status(200).json({ message: 'Record updated successfully' });
+    } catch (error) {
+        console.error("Error updating record:", error);
+        res.status(500).json({ message: 'Error updating record', error: error.message });
+    }
+});
+
+// API สำหรับการลบข้อมูลการซ่อมคอมพิวเตอร์ตาม ID
+app.delete('/RepairComputer/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const [results] = await conn.query('DELETE FROM RepairComputer WHERE id = ?', [id]);
+        if (results.affectedRows === 0) {
+            return res.status(404).json({ message: 'Repair record not found to delete' });
+        }
+        res.status(200).json({
+            message: "Delete record successfully",
+            data: results
+        });
+    } catch (error) {
+        console.error("Error deleting record:", error.message);
+        res.status(500).json({
+            message: "Something went wrong while deleting",
+            error: error.message
+        });
+    }
+});
+
+// เริ่มต้นเซิร์ฟเวอร์
+app.listen(port, async () => {
+    try {
+        await initMySQL();  // ตรวจสอบการเชื่อมต่อกับฐานข้อมูล
+        console.log(`Server running at http://localhost:${port}`);
+    } catch (error) {
+        console.error('Error initializing MySQL connection:', error.message);
+    }
+});
